@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_task/blocs/item_cubit.dart';
+import 'package:mini_task/repository/item_repository.dart';
+import 'package:mini_task/screens/item_list_screen.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  runApp(MyApp());
+} 
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
-  // This widget is the root of your application.
+  final repository = ItemRepository();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +20,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: BlocProvider(
+        create: (_) => ItemCubit(repository),
+        child: ItemListScreen(),
+      ),
     );
   }
 }
